@@ -20,8 +20,8 @@ PANEL_DIR="/opt/taha/panel"
 VENV_DIR="/opt/taha/venv"
 SERVICE_FILE="/etc/systemd/system/taha-panel.service"
 
-PANEL_TGZ_PRIMARY="http://backend.developshop.ir/taha-webui-v2.tar.gz"
-PANEL_TGZ_FALLBACK="https://github.com/Mdrzxsony/TaHa-Direct-Reverse-Tunnel-Runner/raw/refs/heads/main/taha-webui-v2.tar.gz"
+PANEL_TGZ_PRIMARY="https://backend.developshop.ir/taha-webui-v2.tar.gz"
+PANEL_TGZ_FALLBACK="https://backend.developshop.ir/taha-webui-v2.tar.gz"
 
 PANEL_PORT_DEFAULT="8787"
 PANEL_PORT_FILE="/opt/taha/panel_port"
