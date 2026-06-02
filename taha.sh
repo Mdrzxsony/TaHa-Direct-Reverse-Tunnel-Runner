@@ -1943,9 +1943,9 @@ echo "  relay  : nodelay"
   cat <<'EOF'
 Notes:
 - PROTO1+PROTO2 can be: NAME+NAME
-- ALLOW PROTO LIST (https://raw.githubusercontent.com/ToolSeRF/TaHa-Direct-Reverse-Tunnel-Runner/refs/heads/main/all))
+- ALLOW PROTO LIST (https://raw.githubusercontent.com/Mdrzxsony/TaHa-Direct-Reverse-Tunnel-Runner/refs/heads/main/all))
 - SSH_ID only required if proto includes ssh (forwarder side)
-- p=PARAMS SORT LIST (https://raw.githubusercontent.com/ToolSeRF/TaHa-Direct-Reverse-Tunnel-Runner/refs/heads/main/all)
+- p=PARAMS SORT LIST (https://raw.githubusercontent.com/Mdrzxsony/TaHa-Direct-Reverse-Tunnel-Runner/refs/heads/main/all)
 EOF
 
   echo
