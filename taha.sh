@@ -5,7 +5,8 @@ set +u
 export LC_ALL=C
 
 TAHA_VER="20260217"
-GOST_VER="3.2.7-nightly.20251122"
+GOST_VER="3.2.7-nightly.20260602"
+GOST_VER_FALLBACK="3.2.6"
 GOST_BIN="/usr/local/bin/gost"
 SYS_DIR="/etc/systemd/system"
 RESET_SCRIPT="/etc/reset-gost.sh"
@@ -1076,20 +1077,25 @@ install_core() {
     esac
   done
 
-  local url="https://github.com/go-gost/gost/releases/download/v${GOST_VER}/gost_${GOST_VER}_linux_${arch}.tar.gz"
-  local tmp="/tmp/gost_${GOST_VER}_${arch}.$$"
-  mkdir -p "$tmp" >/dev/null 2>&1
+  local gver tmp url ok_dl=0
+  for gver in "$GOST_VER" "$GOST_VER_FALLBACK"; do
+    url="https://github.com/go-gost/gost/releases/download/v${gver}/gost_${gver}_linux_${arch}.tar.gz"
+    tmp="/tmp/gost_${gver}_${arch}.$$"
+    mkdir -p "$tmp" >/dev/null 2>&1
 
-  add_log "Downloading GOST v${GOST_VER} (${arch})"
-  render
-  wget -q -O "${tmp}/gost.tgz" "$url" || { add_log "Download failed"; rm -rf "$tmp"; pause_enter; return 0; }
+    add_log "Downloading GOST v${gver} (${arch})"
+    render
+    if wget -q -O "${tmp}/gost.tgz" "$url" && tar -xzf "${tmp}/gost.tgz" -C "$tmp" 2>/dev/null && [[ -f "${tmp}/gost" ]]; then
+      ok_dl=1
+      break
+    fi
+    rm -rf "$tmp" >/dev/null 2>&1
+  done
 
-  add_log "Extracting"
-  tar -xzf "${tmp}/gost.tgz" -C "$tmp" || { add_log "Extract failed"; rm -rf "$tmp"; pause_enter; return 0; }
-
-  if [[ ! -f "${tmp}/gost" ]]; then
-    add_log "Binary not found in archive"
-    rm -rf "$tmp"; pause_enter; return 0
+  if [[ "$ok_dl" != "1" ]]; then
+    add_log "Download failed (tried ${GOST_VER} and ${GOST_VER_FALLBACK})"
+    pause_enter
+    return 0
   fi
 
   chmod +x "${tmp}/gost" >/dev/null 2>&1
