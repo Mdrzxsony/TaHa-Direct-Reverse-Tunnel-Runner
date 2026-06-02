@@ -7,8 +7,8 @@ DIR="$(cd "$(dirname "$0")" && pwd)"
 TAHA="$DIR/taha"
 TAHA_SH="$DIR/taha.sh"
 
-TAHA_URL="https://raw.githubusercontent.com/ToolSeRF/TaHa-Direct-Reverse-Tunnel-Runner/main/taha"
-TAHA_SH_URL="https://raw.githubusercontent.com/ToolSeRF/TaHa-Direct-Reverse-Tunnel-Runner/main/taha.sh"
+TAHA_URL="https://raw.githubusercontent.com/Mdrzxsony/TaHa-Direct-Reverse-Tunnel-Runner/refs/heads/main/taha"
+TAHA_SH_URL="https://raw.githubusercontent.com/Mdrzxsony/TaHa-Direct-Reverse-Tunnel-Runner/refs/heads/main/taha.sh"
 
 TS="$(date +%Y%m%d-%H%M%S)"
 
