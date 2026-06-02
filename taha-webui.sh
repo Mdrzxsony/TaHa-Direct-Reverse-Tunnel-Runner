@@ -103,12 +103,25 @@ fetch_panel_bundle() {
 
   log "Extracting bundle..."
   tar -xzf "$tgz" -C "$tmp"
-  [[ -f "$tmp/panel/app.py" ]] || { rm -rf "$tmp"; die "Invalid bundle structure (expected panel/app.py)"; }
+
+  local root="$tmp"
+  if [[ ! -f "$root/panel/app.py" ]]; then
+    # Archive may wrap files in one top-level dir (e.g. taha-webui-v2/panel/...)
+    local nested
+    nested="$(find "$tmp" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | head -n1)"
+    if [[ -n "$nested" && -f "$nested/panel/app.py" ]]; then
+      root="$nested"
+      log "Using nested bundle root: $(basename "$root")/"
+    else
+      rm -rf "$tmp"
+      die "Invalid bundle structure (expected panel/app.py at archive root or inside one folder)"
+    fi
+  fi
 
   log "Installing files to $PANEL_DIR (replacing old panel files)..."
   rm -rf "$PANEL_DIR"
   mkdir -p "$PANEL_DIR"
-  cp -a "$tmp/panel/." "$PANEL_DIR/"
+  cp -a "$root/panel/." "$PANEL_DIR/"
   rm -rf "$tmp"
 
   ok "Panel files installed."
